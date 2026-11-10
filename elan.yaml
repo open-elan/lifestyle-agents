@@ -15,7 +15,7 @@ source:
   # REWRITTEN BY `elan deploy`, which resolves your branch to a commit and puts
   # the sha here before submitting — so a deployment is reproducible from this
   # file alone. All zeroes until the first deploy.
-  ref: "0000000000000000000000000000000000000000"
+  ref: "8414db5b29a22cc816813c2bf4f1e99e9e8c1ba7"
   # Must contain agents/<name>/agent.py and workflows/<name>/workflow.py.
   targetsRoot: .
   runtime: python3.12
