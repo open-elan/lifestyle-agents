@@ -15,7 +15,7 @@ source:
   # REWRITTEN BY `elan deploy`, which resolves your branch to a commit and puts
   # the sha here before submitting — so a deployment is reproducible from this
   # file alone. All zeroes until the first deploy.
-  ref: "8414db5b29a22cc816813c2bf4f1e99e9e8c1ba7"
+  ref: "b31dfb40489a4e86e3d91236008cb6c97b15cf1c"
   # Must contain agents/<name>/agent.py and workflows/<name>/workflow.py.
   targetsRoot: .
   runtime: python3.12
@@ -43,12 +43,59 @@ defaults:
   # hostname a model lives on.
   egress: []
 
+# Targets that share one pod. Autopilot bills every pod its 250m / 512Mi floor
+# whatever it asks for, so five agents in five pods would pay five floors before
+# doing any work. Sharing trades that for coupling: the members scale, restart
+# and roll out together, and they share one environment and ONE database.
+#
+# A group is NOT a security boundary — every member can read every other
+# member's DATABASE_URL. All five agents here hold health conversations, so a
+# target that must be isolated (say, mental-health for compliance) moves out by
+# setting `deployment: {runtime: isolated}` and its own `database:` block.
+groups:
+  wellness:
+    # Sized for five agents that mostly wait on the model. Must fit one node:
+    # 1330m / 3300Mi in practice, and 665m / 1650Mi if minReplicas goes to 1.
+    resources: {cpu: "500m", memory: "1Gi"}
+    scaling: {minReplicas: 0, maxReplicas: 2}
+    database: {enabled: true}
+
 # Every agent and workflow in this repo, by slug. The set here must equal the
 # set the repo actually contains — in both directions, checked on every deploy.
 # `elan new` writes both halves so they cannot drift.
 targets:
+  # ISOLATED: its own pod and database, as it was first deployed.
   fitness-coach:
     # Takes every value from `defaults:` above. Override any block
     # here — a block replaces the default entirely rather than
     # merging field by field, so state all of it or none of it.
     database: {enabled: true}
+
+  # SHARED: the rest run in the `wellness` group. A shared target may not state
+  # `resources`, `scaling` or `egress` — the group's apply — and a `database:`
+  # block on one is silently replaced by the group's, so none is stated here.
+  #
+  # A group has no `llm`; the model is chosen PER TARGET. These run Gemini 3.1
+  # Flash-Lite, which each one's MANIFEST.model names. A target's `llm` block
+  # replaces the default entirely, so it restates `keys` — and every member of
+  # a group must name the same key for a provider, because one pod has one
+  # environment.
+  dietician:
+    deployment: {runtime: shared, group: wellness}
+    llm: {models: [gemini-3.1-flash-lite], keys: {google: default}}
+
+  yoga-trainer:
+    deployment: {runtime: shared, group: wellness}
+    llm: {models: [gemini-3.1-flash-lite], keys: {google: default}}
+
+  lifestyle-coach:
+    deployment: {runtime: shared, group: wellness}
+    llm: {models: [gemini-3.1-flash-lite], keys: {google: default}}
+
+  mental-health:
+    deployment: {runtime: shared, group: wellness}
+    llm: {models: [gemini-3.1-flash-lite], keys: {google: default}}
+
+  physio:
+    deployment: {runtime: shared, group: wellness}
+    llm: {models: [gemini-3.1-flash-lite], keys: {google: default}}
