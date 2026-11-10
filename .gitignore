@@ -1,0 +1,6 @@
+.env
+.venv/
+.elan/
+.claude/settings.local.json
+__pycache__/
+*.pyc

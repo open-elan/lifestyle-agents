@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(elan validate:*)",
+      "Bash(elan status:*)",
+      "Bash(elan logs:*)",
+      "Bash(elan whoami:*)",
+      "Bash(elan agents:*)",
+      "Bash(elan secret ls:*)",
+      "Bash(elan doctor:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "WebFetch(domain:openelan.ai)"
+    ],
+    "ask": [
+      "Bash(elan deploy:*)",
+      "Bash(elan rollback:*)",
+      "Bash(elan destroy:*)",
+      "Bash(elan secret set:*)",
+      "Bash(elan secret rm:*)",
+      "Bash(elan wallet:*)",
+      "Bash(elan projects create:*)",
+      "Bash(git push:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Edit(./.env)"
+    ]
+  }
+}
