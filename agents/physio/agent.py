@@ -9,7 +9,7 @@ MANIFEST = AgentManifest(
     slug="physio",
     # Bump this whenever you change this file — CI enforces it, so the version
     # shown in the portal and stamped on every event stays trustworthy.
-    version="0.1.0",
+    version="0.1.1",
     display_name="Physio",
     description=(
         "Physio offers guidance on aches, pains, posture and injury recovery: "

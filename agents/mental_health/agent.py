@@ -12,7 +12,7 @@ MANIFEST = AgentManifest(
     slug="mental-health",
     # Bump this whenever you change this file — CI enforces it, so the version
     # shown in the portal and stamped on every event stays trustworthy.
-    version="0.1.0",
+    version="0.1.1",
     display_name="Mental Health Companion",
     description=(
         "Mental Health Companion offers a supportive, non-judgemental space to "

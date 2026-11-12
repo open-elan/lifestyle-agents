@@ -17,7 +17,7 @@ MANIFEST = AgentManifest(
     slug="fitness-coach",
     # Bump this whenever you change this file — CI enforces it, so the version
     # shown in the portal and stamped on every event stays trustworthy.
-    version="0.2.1",
+    version="0.2.2",
     display_name="Fitness Coach",
     description="Fitness Coach is an AI-powered personal trainer that helps users achieve their fitness goals by providing personalized workout plans, nutrition advice, and motivation.",
     model="gemini-flash-latest",

@@ -17,7 +17,7 @@ MANIFEST = AgentManifest(
     slug="dietician",
     # Bump this whenever you change this file — CI enforces it, so the version
     # shown in the portal and stamped on every event stays trustworthy.
-    version="0.1.0",
+    version="0.1.1",
     display_name="Dietician",
     description=(
         "Dietician gives evidence-based nutrition guidance: calorie and protein "
