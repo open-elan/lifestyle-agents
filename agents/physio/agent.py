@@ -1,6 +1,7 @@
 """Physio — physio."""
 
 from __future__ import annotations
+from google.genai import types
 
 from agentkit_core.manifest import AgentManifest, Billing, Limits
 from google.adk.agents import BaseAgent, LlmAgent
@@ -9,7 +10,7 @@ MANIFEST = AgentManifest(
     slug="physio",
     # Bump this whenever you change this file — CI enforces it, so the version
     # shown in the portal and stamped on every event stays trustworthy.
-    version="0.1.1",
+    version="0.1.2",
     display_name="Physio",
     description=(
         "Physio offers guidance on aches, pains, posture and injury recovery: "
@@ -149,4 +150,11 @@ def build(ctx) -> BaseAgent:
         model=ctx.model,
         description=ctx.manifest.description,
         instruction=INSTRUCTION,
+        generate_content_config=types.GenerateContentConfig(
+            temperature=0.4,
+            thinking_config=types.ThinkingConfig(
+                include_thoughts=True,
+                thinking_level=types.ThinkingLevel.MEDIUM
+            )
+        )
     )
